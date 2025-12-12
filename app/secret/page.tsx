@@ -64,7 +64,7 @@ export default function SecretPage() {
           <>
             {/* Header */}
             <div className="text-center mb-6">
-              <h1 className="font-kapakana text-5xl text-gray-800 mb-2">You got it right!</h1>
+              <h1 className="font-kapakana text-4xl md:text-5xl text-gray-800 mb-2" style={{ fontFamily: 'var(--font-kapakana), Brush Script MT, cursive' }}>You got it right!</h1>
               
               <p className="font-cormorant text-base text-gray-600 max-w-md mx-auto">
                 Now, please try to solve the puzzle. I've something for you.

@@ -133,15 +133,15 @@ export default function Scrapbook() {
   return (
     <div className="w-full max-w-6xl mx-auto px-4 pb-12">
       {/* Header */}
-      <div className="text-center mt-6 mb-4">
-        <div className="text-xl uppercase tracking-[0.3em] font-cormorant text-gray-800">Happy</div>
-        <div className="font-kapakana text-6xl text-gray-800 leading-tight -mt-2">Birthday</div>
-        <div className="font-cormorant text-2xl text-gray-800 mt-1">babe &lt;3</div>
+      <div className="text-center mt-6 mb-4 md:mb-8">
+        <div className="text-lg md:text-xl uppercase tracking-[0.3em] font-cormorant text-gray-800">Happy</div>
+        <div className="font-kapakana text-5xl md:text-6xl text-gray-800 leading-tight -mt-2" style={{ fontFamily: 'var(--font-kapakana), Brush Script MT, cursive', fontWeight: 400 }}>Birthday</div>
+        <div className="font-cormorant text-xl md:text-2xl text-gray-800 mt-1">babe &lt;3</div>
       </div>
 
-      {/* Canvas */}
+      {/* Desktop Canvas - Draggable Layout */}
       <div
-        className="relative w-full max-w-5xl mx-auto rounded-2xl canvas-grid"
+        className="hidden md:block relative w-full max-w-5xl mx-auto rounded-2xl canvas-grid"
         style={{ minHeight: '740px', height: '740px' }}
       >
         {photos.map(photo => (
@@ -155,6 +155,36 @@ export default function Scrapbook() {
             footerContent={photo.id === '2' ? gateFooter : undefined}
           />
         ))}
+      </div>
+
+      {/* Mobile Stacking Layout */}
+      <div className="md:hidden pb-8">
+        {(() => {
+          // Reorder photos for mobile: put card with id '2' first
+          const gateCard = photos.find(p => p.id === '2');
+          const otherCards = photos.filter(p => p.id !== '2');
+          const reorderedPhotos = gateCard ? [gateCard, ...otherCards] : photos;
+          
+          return reorderedPhotos.map((photo, index) => (
+            <div
+              key={photo.id}
+              className="sticky mb-6"
+              style={{
+                top: `${Math.max(20, 40 - index * 5)}px`,
+                zIndex: reorderedPhotos.length - index,
+              }}
+            >
+              <PhotoCard
+                photo={photo}
+                onUpdate={handleUpdate}
+                onDelete={handleDelete}
+                zIndex={reorderedPhotos.length - index}
+                className="w-full max-w-sm mx-auto"
+                footerContent={photo.id === '2' ? gateFooter : undefined}
+              />
+            </div>
+          ));
+        })()}
       </div>
     </div>
   );

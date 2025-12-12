@@ -24,10 +24,13 @@
 
   .font-cormorant {
     font-family: var(--font-cormorant), 'Times New Roman', serif;
+    font-feature-settings: normal;
   }
 
   .font-kapakana {
     font-family: var(--font-kapakana), 'Brush Script MT', cursive;
+    font-feature-settings: normal;
+    font-weight: 400;
   }
 }
 

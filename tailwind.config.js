@@ -7,6 +7,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        cormorant: ['var(--font-cormorant)', 'Times New Roman', 'serif'],
+        kapakana: ['var(--font-kapakana)', 'Brush Script MT', 'cursive'],
+      },
       colors: {
         romantic: {
           pink: '#fce7f3',

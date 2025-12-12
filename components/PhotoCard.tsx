@@ -15,11 +15,21 @@ interface PhotoCardProps {
 
 export default function PhotoCard({ photo, onUpdate, onDelete, zIndex, footerContent, className }: PhotoCardProps) {
   const [caption, setCaption] = useState(photo.caption);
+  const [isMobile, setIsMobile] = useState(false);
   const nodeRef = useRef(null);
 
   useEffect(() => {
     setCaption(photo.caption);
   }, [photo.caption]);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const handleCaptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newCaption = e.target.value;
@@ -47,6 +57,53 @@ export default function PhotoCard({ photo, onUpdate, onDelete, zIndex, footerCon
     onUpdate(photo.id, { x: data.x, y: data.y });
   };
 
+  const cardInner = (
+    <div 
+      className="bg-white polaroid-shadow rounded-sm p-2 w-full md:w-[19rem] lg:w-[21rem] mx-auto"
+      style={{
+        transform: `rotate(${photo.rotation}deg) scale(${photo.scale})`,
+        transformOrigin: 'center center',
+      }}
+    >
+      {/* Photo */}
+      <div className={`drag-handle bg-gray-100 aspect-square rounded-sm overflow-hidden mb-3 ${!isMobile ? 'cursor-move' : ''}`}>
+        <img
+          src={photo.src}
+          alt={photo.caption}
+          className="w-full h-full object-cover"
+          draggable={false}
+        />
+      </div>
+
+      {/* Caption / Custom Footer */}
+      <div className="px-2 pb-3">
+        {footerContent ? (
+          footerContent
+        ) : (
+          <input
+            type="text"
+            value={caption}
+            onChange={handleCaptionChange}
+            placeholder="Add a caption..."
+            className="w-full text-sm text-gray-700 bg-transparent border-none outline-none focus:outline-none font-cormorant"
+          />
+        )}
+      </div>
+    </div>
+  );
+
+  if (isMobile) {
+    return (
+      <div
+        ref={nodeRef}
+        className={className ?? ''}
+        style={{ zIndex }}
+      >
+        {cardInner}
+      </div>
+    );
+  }
+
   return (
     <Draggable
       nodeRef={nodeRef}
@@ -59,40 +116,7 @@ export default function PhotoCard({ photo, onUpdate, onDelete, zIndex, footerCon
         className={`absolute cursor-move ${className ?? ''}`}
         style={{ zIndex }}
       >
-        <div 
-          className="bg-white polaroid-shadow rounded-sm p-2 w-[19rem] md:w-[21rem]"
-          style={{
-            transform: `rotate(${photo.rotation}deg) scale(${photo.scale})`,
-            transformOrigin: 'center center',
-          }}
-        >
-          {/* Photo */}
-          <div className="drag-handle bg-gray-100 aspect-square rounded-sm overflow-hidden mb-3 cursor-move">
-            <img
-              src={photo.src}
-              alt={photo.caption}
-              className="w-full h-full object-cover"
-              draggable={false}
-            />
-          </div>
-
-          {/* Caption / Custom Footer */}
-          <div className="px-2 pb-3">
-            {footerContent ? (
-              footerContent
-            ) : (
-              <input
-                type="text"
-                value={caption}
-                onChange={handleCaptionChange}
-                placeholder="Add a caption..."
-                className="w-full text-sm text-gray-700 bg-transparent border-none outline-none focus:outline-none font-cormorant"
-              />
-            )}
-          </div>
-
-
-        </div>
+        {cardInner}
       </div>
     </Draggable>
   );
