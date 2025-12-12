@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: var(--font-cormorant), 'Times New Roman', serif;
+    @apply min-h-screen;
+    background: #f7cfd8;
+  }
+}
+
+@layer utilities {
+  .polaroid-shadow {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                0 2px 4px -1px rgba(0, 0, 0, 0.06),
+                0 0 0 8px rgba(255, 255, 255, 0.8),
+                0 0 0 9px rgba(0, 0, 0, 0.05);
+  }
+  
+  .canvas-grid {
+    background: #f7cfd8;
+  }
+
+  .font-cormorant {
+    font-family: var(--font-cormorant), 'Times New Roman', serif;
+  }
+
+  .font-kapakana {
+    font-family: var(--font-kapakana), 'Brush Script MT', cursive;
+  }
+}
+
