@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import SlidingPuzzle from '@/components/SlidingPuzzle';
@@ -31,6 +31,7 @@ export default function SecretPage() {
   const [solved, setSolved] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   // Get image source for puzzle (first slideshow image or fallback)
   const imageSrc = SLIDESHOW_IMAGES[0] || '/photos/secret.JPG';
@@ -56,12 +57,33 @@ export default function SecretPage() {
     // Confetti will keep repeating forever! 🎉
   };
 
+  // Play audio when solved
+  useEffect(() => {
+    if (solved && audioRef.current) {
+      audioRef.current.play().catch((error) => {
+        // Handle autoplay restrictions - user interaction may be required
+        console.log('Audio autoplay prevented:', error);
+      });
+    }
+  }, [solved]);
+
   const handleOpenScrapbook = () => {
     router.push('/');
   };
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-pink-50 via-white to-indigo-50 py-8 px-4">
+      {/* Background Audio - Hidden */}
+      {solved && (
+        <audio
+          ref={audioRef}
+          src="/audio/photograph-ed-sheeran_2I5s3zmo.mp3"
+          loop
+          preload="auto"
+          className="hidden"
+        />
+      )}
+
       {/* Confetti */}
       {showConfetti && (
         <Confetti
