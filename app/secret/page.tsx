@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import SlidingPuzzle from '@/components/SlidingPuzzle';
 import ImageSlideshow from '@/components/ImageSlideshow';
+import { performUnfoldTransition } from '@/utils/transition';
 
 // Dynamically import confetti to avoid SSR issues
 const Confetti = dynamic(() => import('react-confetti'), { ssr: false });
@@ -60,9 +61,12 @@ export default function SecretPage() {
   }, []);
 
   const handleSolve = () => {
-    setSolved(true);
-    setShowConfetti(true);
-    // Confetti will keep repeating forever! 🎉
+    // Perform transition before showing solved state
+    performUnfoldTransition(() => {
+      setSolved(true);
+      setShowConfetti(true);
+      // Confetti will keep repeating forever! 🎉
+    });
   };
 
   // Play audio when solved

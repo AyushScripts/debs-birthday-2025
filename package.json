@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@barba/core": "^2.10.3",
     "next": "^14.2.0",
     "react": "^18.3.0",
     "react-confetti": "^6.4.0",

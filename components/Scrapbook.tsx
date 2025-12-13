@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { PhotoCard as PhotoCardType } from '@/types';
 import { saveToStorage, loadFromStorage, clearStorage, exportToJSON } from '@/utils/storage';
 import PhotoCard from './PhotoCard';
+import { performUnfoldTransition } from '@/utils/transition';
 
 const DEFAULT_PHOTOS: PhotoCardType[] = [
   {
@@ -90,7 +91,10 @@ export default function Scrapbook() {
     const normalized = nameInput.trim().toLowerCase();
     if (normalized === 'dhun') {
       setErrorText('');
-      router.push('/secret');
+      // Perform transition before navigation
+      performUnfoldTransition(() => {
+        router.push('/secret');
+      });
     } else {
       setErrorText("Nope.\nHint: It starts with \"D\"");
     }
