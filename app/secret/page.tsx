@@ -26,7 +26,7 @@ export default function SecretPage() {
         height: window.innerHeight,
       });
     };
-    
+
     updateSize();
     window.addEventListener('resize', updateSize);
     return () => window.removeEventListener('resize', updateSize);
@@ -35,7 +35,7 @@ export default function SecretPage() {
   const handleSolve = () => {
     setSolved(true);
     setShowConfetti(true);
-    
+
     // Hide confetti after 5 seconds
     setTimeout(() => {
       setShowConfetti(false);
@@ -65,7 +65,7 @@ export default function SecretPage() {
             {/* Header */}
             <div className="text-center mb-6">
               <h1 className="font-kapakana text-4xl md:text-5xl text-gray-800 mb-2" style={{ fontFamily: 'var(--font-kapakana), Brush Script MT, cursive' }}>You got it right!</h1>
-              
+
               <p className="font-cormorant text-base text-gray-600 max-w-md mx-auto">
                 Now, please try to solve the puzzle. I've something for you.
               </p>
@@ -90,14 +90,14 @@ export default function SecretPage() {
                   }}
                 />
               </div>
-              
+
               {/* Message */}
               <div className="text-center space-y-3">
                 <p className="font-cormorant text-lg text-gray-800 leading-relaxed">
                   You found it, my favorite human.
                 </p>
                 <p className="font-cormorant text-lg text-gray-800 leading-relaxed">
-                  Every piece of our story fits because of you.
+                  Every piece of our story fits because of you. Every future moment feels like home when I imagine it with you &lt;3
                 </p>
                 <p className="font-cormorant text-xl text-gray-800 font-semibold mt-4">
                   Happy Birthday Dhun!
@@ -108,7 +108,7 @@ export default function SecretPage() {
               </div>
             </div>
 
-            
+
           </div>
         )}
       </div>
