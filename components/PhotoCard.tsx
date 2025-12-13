@@ -8,12 +8,14 @@ interface PhotoCardProps {
   photo: PhotoCardType;
   onUpdate: (id: string, updates: Partial<PhotoCardType>) => void;
   onDelete?: (id: string) => void;
+  onDragStart?: (id: string) => void;
+  onDragStop?: () => void;
   zIndex?: number;
   footerContent?: ReactNode;
   className?: string;
 }
 
-export default function PhotoCard({ photo, onUpdate, onDelete, zIndex, footerContent, className }: PhotoCardProps) {
+export default function PhotoCard({ photo, onUpdate, onDelete, onDragStart, onDragStop, zIndex, footerContent, className }: PhotoCardProps) {
   const [caption, setCaption] = useState(photo.caption);
   const [isMobile, setIsMobile] = useState(false);
   const nodeRef = useRef(null);
@@ -55,6 +57,14 @@ export default function PhotoCard({ photo, onUpdate, onDelete, zIndex, footerCon
 
   const handleDrag = (_e: any, data: { x: number; y: number }) => {
     onUpdate(photo.id, { x: data.x, y: data.y });
+  };
+
+  const handleDragStart = () => {
+    onDragStart?.(photo.id);
+  };
+
+  const handleDragStop = () => {
+    onDragStop?.();
   };
 
   const cardInner = (
@@ -109,6 +119,8 @@ export default function PhotoCard({ photo, onUpdate, onDelete, zIndex, footerCon
       nodeRef={nodeRef}
       position={{ x: photo.x, y: photo.y }}
       onDrag={handleDrag}
+      onStart={handleDragStart}
+      onStop={handleDragStop}
       handle=".drag-handle"
     >
       <div

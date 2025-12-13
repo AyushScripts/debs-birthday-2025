@@ -66,6 +66,7 @@ export default function Scrapbook() {
   const [photoCounter, setPhotoCounter] = useState(3);
   const [nameInput, setNameInput] = useState('');
   const [errorText, setErrorText] = useState('');
+  const [draggedCardId, setDraggedCardId] = useState<string | null>(null);
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -92,6 +93,14 @@ export default function Scrapbook() {
 
   const handleDelete = useCallback((id: string) => {
     setPhotos(prev => prev.filter(photo => photo.id !== id));
+  }, []);
+
+  const handleDragStart = useCallback((id: string) => {
+    setDraggedCardId(id);
+  }, []);
+
+  const handleDragStop = useCallback(() => {
+    setDraggedCardId(null);
   }, []);
 
   const handleGateSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -144,17 +153,25 @@ export default function Scrapbook() {
         className="hidden md:block relative w-full max-w-5xl mx-auto rounded-2xl canvas-grid"
         style={{ minHeight: '740px', height: '740px' }}
       >
-        {photos.map(photo => (
-          <PhotoCard
-            key={photo.id}
-            photo={photo}
-            onUpdate={handleUpdate}
-            onDelete={handleDelete}
-            zIndex={zIndexMap[photo.id] ?? 1}
-            className="w-72 md:w-80"
-            footerContent={photo.id === '2' ? gateFooter : undefined}
-          />
-        ))}
+        {photos.map(photo => {
+          // Calculate z-index: dragged card gets highest, others use their base z-index
+          const baseZIndex = zIndexMap[photo.id] ?? 1;
+          const finalZIndex = draggedCardId === photo.id ? 1000 : baseZIndex;
+          
+          return (
+            <PhotoCard
+              key={photo.id}
+              photo={photo}
+              onUpdate={handleUpdate}
+              onDelete={handleDelete}
+              onDragStart={handleDragStart}
+              onDragStop={handleDragStop}
+              zIndex={finalZIndex}
+              className="w-72 md:w-80"
+              footerContent={photo.id === '2' ? gateFooter : undefined}
+            />
+          );
+        })}
       </div>
 
       {/* Mobile Stacking Layout */}
