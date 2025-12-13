@@ -4,9 +4,27 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import SlidingPuzzle from '@/components/SlidingPuzzle';
+import ImageSlideshow from '@/components/ImageSlideshow';
 
 // Dynamically import confetti to avoid SSR issues
 const Confetti = dynamic(() => import('react-confetti'), { ssr: false });
+
+// ============================================
+// CONFIGURE YOUR SLIDESHOW IMAGES HERE
+// ============================================
+// Add or remove image paths to customize the slideshow
+// Images should be in the /public/photos/ directory
+const SLIDESHOW_IMAGES = [
+  '/photos/secret.JPG',
+  '/photos/img-8.jpg',
+  '/photos/img-9.jpg',
+  '/photos/img-4.jpg',
+  '/photos/img-5.jpg',
+  '/photos/img-6.jpg',
+  '/photos/img-10.jpg',
+  // Add more images here as needed
+  // Example: '/photos/IMG_2806.jpg',
+];
 
 export default function SecretPage() {
   const router = useRouter();
@@ -14,8 +32,8 @@ export default function SecretPage() {
   const [showConfetti, setShowConfetti] = useState(false);
   const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
 
-  // Get image source with fallback
-  const imageSrc = '/photos/secret.JPG';
+  // Get image source for puzzle (first slideshow image or fallback)
+  const imageSrc = SLIDESHOW_IMAGES[0] || '/photos/secret.JPG';
   const fallbackSrc = '/photos/photo1.jpg';
 
   // Handle window resize for confetti
@@ -35,11 +53,7 @@ export default function SecretPage() {
   const handleSolve = () => {
     setSolved(true);
     setShowConfetti(true);
-
-    // Hide confetti after 5 seconds
-    setTimeout(() => {
-      setShowConfetti(false);
-    }, 5000);
+    // Confetti will keep repeating forever! 🎉
   };
 
   const handleOpenScrapbook = () => {
@@ -53,9 +67,12 @@ export default function SecretPage() {
         <Confetti
           width={windowSize.width}
           height={windowSize.height}
-          recycle={false}
-          numberOfPieces={200}
+          recycle={true}
+          numberOfPieces={300}
           colors={['#f472b6', '#a78bfa', '#ffffff', '#fbbf24', '#ec4899', '#818cf8']}
+          gravity={0.1}
+          initialVelocityY={20}
+          initialVelocityX={10}
         />
       )}
 
@@ -77,17 +94,13 @@ export default function SecretPage() {
         ) : (
           /* Solved State */
           <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-6 animate-fade-in">
-            {/* Polaroid Card with Image */}
+            {/* Polaroid Card with Slideshow */}
             <div className="bg-white rounded-2xl shadow-xl p-6 max-w-md w-full">
-              <div className="aspect-square rounded-lg overflow-hidden mb-4">
-                <img
-                  src={imageSrc}
-                  alt="Secret surprise"
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = fallbackSrc;
-                  }}
+              <div className="mb-4">
+                <ImageSlideshow 
+                  images={SLIDESHOW_IMAGES.length > 0 ? SLIDESHOW_IMAGES : [imageSrc, fallbackSrc]}
+                  interval={3000}
+                  fadeDuration={1000}
                 />
               </div>
 

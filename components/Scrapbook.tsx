@@ -34,24 +34,6 @@ const DEFAULT_PHOTOS: PhotoCardType[] = [
     rotation: 10,
     scale: 1,
   },
-  {
-    id: '4',
-    src: '/photos/img-4.jpg',
-    x: -50,
-    y: 80,
-    caption: 'You’re the best part of my life.',
-    rotation: -20,
-    scale: 1,
-  },
-  {
-    id: '5',
-    src: '/photos/img-5.jpg',
-    x: 800,
-    y: 80,
-    caption: 'You complete me.',
-    rotation: 20,
-    scale: 1,
-  },
 ];
 
 const zIndexMap: Record<string, number> = {
