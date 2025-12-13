@@ -3,7 +3,7 @@ import { Cormorant_Infant, Kaushan_Script } from 'next/font/google';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'I love you babe &lt;3',
+  title: 'I love you babe <3',
   description: 'A little something for my little someone',
 };
 
