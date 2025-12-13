@@ -84,7 +84,7 @@ export default function SecretPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-pink-50 via-white to-indigo-50 py-8 px-4">
+    <main className="min-h-screen bg-gradient-to-b from-pink-200 via-white to-pink-300  py-8 px-4">
       {/* Background Audio - Hidden */}
       {solved && (
         <audio
@@ -129,7 +129,7 @@ export default function SecretPage() {
           /* Solved State */
           <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-6 animate-fade-in">
             {/* Polaroid Card with Slideshow */}
-            <div className="bg-white rounded-2xl shadow-xl p-6 max-w-md w-full">
+            <div className="bg-white   rounded-2xl shadow-2xl  p-6 max-w-md w-full">
               <div className="mb-4">
                 <ImageSlideshow 
                   images={SLIDESHOW_IMAGES.length > 0 ? SLIDESHOW_IMAGES : [imageSrc, fallbackSrc]}
