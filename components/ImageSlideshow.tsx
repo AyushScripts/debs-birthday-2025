@@ -10,7 +10,7 @@ interface ImageSlideshowProps {
 
 export default function ImageSlideshow({ 
   images, 
-  interval = 4000,
+  interval = 3000,
   fadeDuration = 1000 
 }: ImageSlideshowProps) {
   const [currentIndex, setCurrentIndex] = useState(0);

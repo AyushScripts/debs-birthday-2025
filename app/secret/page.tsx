@@ -22,6 +22,14 @@ const SLIDESHOW_IMAGES = [
   '/photos/img-5.jpg',
   '/photos/img-6.jpg',
   '/photos/img-10.jpg',
+  '/photos/img-11.jpg',
+  '/photos/img-12.jpg',
+  '/photos/img-13.jpg',
+  '/photos/img-14.jpg',
+  '/photos/img-15.jpg',
+  '/photos/img-16.jpg',
+  '/photos/img-17.jpg',
+  '/photos/img-18.jpg',
   // Add more images here as needed
   // Example: '/photos/IMG_2806.jpg',
 ];
@@ -121,8 +129,8 @@ export default function SecretPage() {
               <div className="mb-4">
                 <ImageSlideshow 
                   images={SLIDESHOW_IMAGES.length > 0 ? SLIDESHOW_IMAGES : [imageSrc, fallbackSrc]}
-                  interval={3000}
-                  fadeDuration={1000}
+                  interval={4000}
+                  fadeDuration={2000}
                 />
               </div>
 
