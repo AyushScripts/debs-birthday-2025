@@ -92,7 +92,7 @@ export default function Scrapbook() {
       setErrorText('');
       router.push('/secret');
     } else {
-      setErrorText("Hint: It starts with 'D'.");
+      setErrorText("Nope.\nHint: It starts with \"D\"");
     }
   };
 
@@ -116,7 +116,7 @@ export default function Scrapbook() {
         </button>
       </div>
       {errorText && (
-        <p className="text-center text-xs text-rose-600">{errorText}</p>
+        <p className="text-center text-xs text-rose-600 whitespace-pre-line">{errorText}</p>
       )}
     </form>
   ), [errorText, nameInput]);
